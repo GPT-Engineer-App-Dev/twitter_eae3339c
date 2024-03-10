@@ -1,0 +1,46 @@
+import React, { useState } from "react";
+import { Box, Flex, Avatar, Input, IconButton, Button, Text, Divider } from "@chakra-ui/react";
+import { FaRegImage, FaRegSmile } from "react-icons/fa";
+
+const Index = () => {
+  const [tweets, setTweets] = useState([]);
+  const [newTweet, setNewTweet] = useState("");
+
+  const handleTweetSubmit = (e) => {
+    e.preventDefault();
+    if (newTweet.trim()) {
+      setTweets([{ id: Date.now(), text: newTweet, image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxyYW5kb20lMjBwZXJzb258ZW58MHx8fHwxNzEwMDYyMDY1fDA&ixlib=rb-4.0.3&q=80&w=1080' }, ...tweets]);
+      setNewTweet("");
+    }
+  };
+
+  return (
+    <Box maxW="md" mx="auto" mt={8}>
+      <form onSubmit={handleTweetSubmit}>
+        <Flex align="center">
+          <Avatar src="https://images.unsplash.com/photo-1463453091185-61582044d556?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwyfHxyYW5kb20lMjBwZXJzb258ZW58MHx8fHwxNzEwMDYyMDY1fDA&ixlib=rb-4.0.3&q=80&w=1080" mr={4} />
+          <Input placeholder="What's happening?" value={newTweet} onChange={(e) => setNewTweet(e.target.value)} />
+          <IconButton aria-label="Add image" icon={<FaRegImage />} ml={2} isRound />
+          <IconButton aria-label="Add emoji" icon={<FaRegSmile />} ml={2} isRound />
+        </Flex>
+        <Button type="submit" colorScheme="blue" mt={4} isFullWidth isDisabled={!newTweet.trim()}>
+          Tweet
+        </Button>
+      </form>
+      <Box mt={8}>
+        {tweets.map((tweet) => (
+          <Box key={tweet.id} mb={4}>
+            <Flex align="center" mb={2}>
+              <Avatar src={tweet.image} mr={4} />
+              <Text fontWeight="bold">User Name</Text>
+            </Flex>
+            <Text>{tweet.text}</Text>
+            <Divider mt={4} />
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
+export default Index;
